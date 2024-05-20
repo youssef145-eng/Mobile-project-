@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_project/Views/pages/home_page.dart';
+import 'package:my_project/views/pages/welcome_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
 
-            home: const Home_page() ,
+            home: const welcome_page() ,
     );
   }
 }
