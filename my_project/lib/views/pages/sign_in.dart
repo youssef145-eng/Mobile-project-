@@ -2,7 +2,6 @@ import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:my_project/views/pages/home_page.dart';
-import 'package:my_project/views/pages/welcome_page.dart';
 import 'package:my_project/views/widgets/custom_scaffold.dart';
 
 class sign_in extends StatefulWidget {
