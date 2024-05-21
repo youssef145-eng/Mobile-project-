@@ -42,6 +42,11 @@ class Recommendation extends StatelessWidget {
               ],
             ),
           ),
+          InkWell(
+            onTap: () {
+              savedItems.add(i1);
+            },
+            child: Icon(Icons.bookmark),),
         ],
       ),
     );

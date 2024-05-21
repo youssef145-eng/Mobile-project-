@@ -1,17 +1,18 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:my_project/DB/db_sql_lite.dart';
 import 'package:my_project/views/pages/home_page.dart';
 import 'package:my_project/views/widgets/custom_scaffold.dart';
 
-class sign_up extends StatefulWidget {
-  const sign_up({super.key});
+class SignUp extends StatefulWidget {
+  const SignUp({super.key});
 
   @override
-  State<sign_up> createState() => _SignUpState();
+  State<SignUp> createState() => _SignUpState();
 }
 
-class _SignUpState extends State<sign_up> {
+class _SignUpState extends State<SignUp> {
   final _formSignInKey = GlobalKey<FormState>();
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _fullNameController = TextEditingController();
@@ -22,79 +23,85 @@ class _SignUpState extends State<sign_up> {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
+      child: SingleChildScrollView(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            const Expanded(
-              flex: 1,
-              child: SizedBox(height: 10.0),
-            ),
-            Expanded(
-              flex: 7,
-              child: Container(
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(40.0),
-                    topRight: Radius.circular(40.0),
-                  ),
+            Container(
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(40.0),
+                  topRight: Radius.circular(40.0),
                 ),
-                child: Form(
-                  key: _formSignInKey,
-                  child: Column(
-                    children: [
-                      Text(
-                        'Get started',
-                        style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.w900),
+              ),
+              child: Form(
+                key: _formSignInKey,
+                child: Column(
+                  children: [
+                    const Text(
+                      'Get started',
+                      style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.w900),
+                    ),
+                    const SizedBox(height: 20),
+                    _buildTextField(
+                      controller: _usernameController,
+                      label: 'User name',
+                      hintText: 'Enter user name',
+                      validatorMessage: 'Please enter user name',
+                    ),
+                    const SizedBox(height: 20),
+                    _buildTextField(
+                      controller: _fullNameController,
+                      label: 'Full Name',
+                      hintText: 'Enter your full name',
+                      validatorMessage: 'Please enter your Name',
+                    ),
+                    const SizedBox(height: 20),
+                    _buildTextField(
+                      controller: _emailController,
+                      label: 'Email',
+                      hintText: 'Enter Email',
+                      validatorMessage: 'Please enter your email',
+                      additionalValidator: (value) {
+                        if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value!)) {
+                          return 'Please enter a valid email address';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                    _buildTextField(
+                      controller: _passwordController,
+                      label: 'Password',
+                      hintText: 'Enter password',
+                      validatorMessage: 'Please enter password',
+                      obscureText: true,
+                      additionalValidator: (value) {
+                        if (value!.length < 9) {
+                          return "Please Write a Strong password";
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                    SizedBox(
+                      child: ElevatedButton(
+                        onPressed: _onSignUpPressed,
+                        child: const Text('Sign up'),
                       ),
-                      const SizedBox(height: 20),
-                      _buildTextField(
-                        controller: _usernameController,
-                        label: 'User name',
-                        hintText: 'Enter user name',
-                        validatorMessage: 'Please enter user name',
-                      ),
-                      const SizedBox(height: 20),
-                      _buildTextField(
-                        controller: _fullNameController,
-                        label: 'Full Name',
-                        hintText: 'Enter your full name',
-                        validatorMessage: 'Please enter your Name',
-                      ),
-                      const SizedBox(height: 20),
-                      _buildTextField(
-                        controller: _emailController,
-                        label: 'Email',
-                        hintText: 'Enter Email',
-                        validatorMessage: 'Please enter email',
-                      ),
-                      const SizedBox(height: 20),
-                      _buildTextField(
-                        controller: _passwordController,
-                        label: 'Password',
-                        hintText: 'Enter password',
-                        validatorMessage: 'Please enter password',
-                        obscureText: true,
-                      ),
-                      const SizedBox(height: 20),
-                      SizedBox(
-                        child: ElevatedButton(
-                          onPressed: _onSignUpPressed,
-                          child: const Text('Sign up'),
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                      _buildDividerWithText(),
-                      const SizedBox(height: 10),
-                      _buildSocialIconsRow(),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(height: 20),
+                    _buildDividerWithText(),
+                    const SizedBox(height: 10),
+                    _buildSocialIconsRow(),
+                  ],
                 ),
               ),
             ),
           ],
         ),
-      
+      ),
     );
   }
 
@@ -104,6 +111,7 @@ class _SignUpState extends State<sign_up> {
     required String hintText,
     required String validatorMessage,
     bool obscureText = false,
+    String? Function(String?)? additionalValidator,
   }) {
     return TextFormField(
       controller: controller,
@@ -112,6 +120,9 @@ class _SignUpState extends State<sign_up> {
       validator: (value) {
         if (value == null || value.isEmpty) {
           return validatorMessage;
+        }
+        if (additionalValidator != null) {
+          return additionalValidator(value);
         }
         return null;
       },
@@ -194,7 +205,7 @@ VALUES ('${_usernameController.text}', '${_fullNameController.text}', '${_emailC
         Icon(
           FontAwesomeIcons.snapchat,
           size: 48,
-          color: Color.fromARGB(255, 243, 240, 33),
+          color: const Color.fromARGB(255, 243, 240, 33),
         ),
         Icon(
           FontAwesomeIcons.apple,

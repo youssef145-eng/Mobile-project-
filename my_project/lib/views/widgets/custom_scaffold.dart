@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CustomScaffold extends StatelessWidget {
@@ -13,18 +14,29 @@ class CustomScaffold extends StatelessWidget {
         elevation: 0,
       ),
       extendBodyBehindAppBar: true,
-      body: Stack(
-        children: [
-          Image.asset(
-            //'assets/images/bg1.png',
-            'assets/images/jon-tyson-XmMsdtiGSfo-unsplash.jpg',
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image:
+                AssetImage('assets/images/jon-tyson-XmMsdtiGSfo-unsplash.jpg'),
+            fit: BoxFit.fill,
           ),
-          if (child != null) SafeArea(child: child!),
-        ],
+        ),
+        child: child,
       ),
+
+      // Stack(
+      //   children: [
+      //     Image.asset(
+      //       //'assets/images/bg1.png',
+      //       'assets/images/jon-tyson-XmMsdtiGSfo-unsplash.jpg',
+      //       fit: BoxFit.cover,
+      //       width: double.infinity,
+      //       height: double.infinity,
+      //     ),
+      //     if (child != null) child!,
+      //   ],
+      // ),
     );
   }
 }

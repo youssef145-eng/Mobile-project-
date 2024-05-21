@@ -48,12 +48,12 @@ class welcome_page extends StatelessWidget {
       children: [
        Expanded(child:welcome_button(
         buttontext:'sign up' ,
-        onTap: sign_up(),
+        onTap: SignUp(),
         color: Colors.transparent,
        )),
        Expanded(child: welcome_button(
         buttontext: 'sign in',
-        onTap: sign_in(),
+        onTap: SignIn(),
         color: Colors.white,
        ))
       
